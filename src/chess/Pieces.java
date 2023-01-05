@@ -1,9 +1,6 @@
 package chess;
 
-import chess.pieces.Bishop;
-import chess.pieces.King;
-import chess.pieces.Piece;
-import chess.pieces.Rook;
+import chess.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +11,16 @@ public class Pieces {
     final ArrayList<Bishop> bishops;
 
     final King king;
+    final Queen queen;
 
-    public Pieces(King king, List<Rook> rooks, List<Bishop> bishops){
+    public Pieces(King king, Queen queen, List<Rook> rooks, List<Bishop> bishops){
         this.pieces = new ArrayList<>();
 
         pieces.add(king);
         this.king = king;
+
+        pieces.add(queen);
+        this.queen = queen;
 
         pieces.addAll(rooks);
         this.rooks = new ArrayList<>(rooks);

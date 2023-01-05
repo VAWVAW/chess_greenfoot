@@ -2,10 +2,7 @@ package chess;
 
 import chess.moves.BaseMove;
 import chess.moves.SelectMove;
-import chess.pieces.Bishop;
-import chess.pieces.King;
-import chess.pieces.Piece;
-import chess.pieces.Rook;
+import chess.pieces.*;
 import greenfoot.World;
 
 import java.util.ArrayList;
@@ -40,6 +37,7 @@ public class Board {
         for(int i=0; i<2; i++){
             Pieces pieces = new Pieces(
                 new King(world, this, i==0, 4, i*7),
+                new Queen(world, this, i==0, 3, i*7),
                 Arrays.asList(
                     new Rook(world, this, i==0, 0, i*7),
                     new Rook(world, this, i==0, 7, i*7)
