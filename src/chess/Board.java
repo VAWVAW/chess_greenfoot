@@ -2,6 +2,7 @@ package chess;
 
 import chess.moves.BaseMove;
 import chess.moves.SelectMove;
+import chess.pieces.Bishop;
 import chess.pieces.King;
 import chess.pieces.Piece;
 import chess.pieces.Rook;
@@ -45,6 +46,8 @@ public class Board {
         for(int i=0; i<2; i++){
             new Rook(world, this, i==0, 0, i*7);
             new Rook(world, this, i==0, 7, i*7);
+            new Bishop(world, this, i==0, 2, i*7);
+            new Bishop(world, this, i==0, 5, i*7);
         }
 
         this.resetMoves();
