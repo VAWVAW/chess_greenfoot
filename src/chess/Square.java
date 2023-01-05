@@ -1,10 +1,7 @@
 package chess;
 
 import chess.moves.BaseMove;
-import greenfoot.Actor;
-import greenfoot.Color;
-import greenfoot.GreenfootImage;
-import greenfoot.World;
+import greenfoot.*;
 
 import java.util.Optional;
 
@@ -14,7 +11,6 @@ public class Square extends Actor {
     final int y;
     final GreenfootImage image;
     final Color standardColor;
-    //noinspection
     Optional<BaseMove> move;
 
     public Square(World world, int x, int y){
@@ -22,10 +18,10 @@ public class Square extends Actor {
         this.y = y;
         this.image = new GreenfootImage(Settings.SQUARE_LEN, Settings.SQUARE_LEN);
         if((x + y) % 2 == 0) {
-            this.standardColor = Color.BLACK;
+            this.standardColor = new Color(244, 139,71);
         }
         else{
-            this.standardColor = Color.LIGHT_GRAY;
+            this.standardColor = new Color(255, 206, 159);
         }
         this.image.setColor(this.standardColor);
         this.image.fill();
@@ -35,9 +31,21 @@ public class Square extends Actor {
         this.move = Optional.empty();
     }
 
+    public void onClick(){
+        this.move.ifPresent(BaseMove::execute);
+    }
+
     public void addMove(BaseMove move){
         this.move = Optional.of(move);
         this.image.setColor(move.getColor());
+        int margin = move.getMargin();
+        this.image.fillRect(margin, margin, Settings.SQUARE_LEN - margin*2, Settings.SQUARE_LEN - margin*2);
+        this.setImage(image);
+    }
+
+    public void removeMove(){
+        this.move = Optional.empty();
+        this.image.setColor(this.standardColor);
         this.image.fill();
     }
 }

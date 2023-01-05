@@ -14,6 +14,8 @@ public class CaptureMove extends MovementMove{
 
     @Override
     public void execute(){
+        //noinspection OptionalGetWithoutIsPresent
+        board.get(x,y).get().capture();
         board.del(x, y);
         super.execute();
     }
@@ -21,5 +23,10 @@ public class CaptureMove extends MovementMove{
     @Override
     public Color getColor(){
         return Color.RED;
+    }
+
+    @Override
+    public int getMargin(){
+        return 0;
     }
 }

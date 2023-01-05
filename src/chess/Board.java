@@ -1,5 +1,7 @@
 package chess;
 
+import chess.moves.BaseMove;
+import chess.moves.SelectMove;
 import chess.pieces.Piece;
 import greenfoot.World;
 
@@ -7,14 +9,18 @@ import java.util.Optional;
 import java.util.Vector;
 
 public class Board {
-    private final Optional<Piece>[][] board;
-    private final Square[][] squares;
-    private final Vector<Piece> piecesLight;
-    private final Vector<Piece> piecesDark;
+    final Optional<Piece>[][] board;
+    public final Square[][] squares;
+    final Vector<Piece> piecesLight;
+    final Vector<Piece> piecesDark;
+
+    boolean playingSide = true;
+    Vector<BaseMove> moves;
 
     public Board(World world){
         this.piecesLight = new Vector<>();
         this.piecesDark = new Vector<>();
+        this.moves = new Vector<>();
 
         //noinspection MoveFieldAssignmentToInitializer,unchecked
         this.board = (Optional<Piece>[][]) new Optional[8][8];
@@ -61,5 +67,33 @@ public class Board {
         if(this.board[x][y].isPresent()){
             this.board[x][y] = Optional.empty();
         }
+    }
+
+    public void togglePlayingSide(){
+        this.playingSide = !this.playingSide;
+        this.resetMoves();
+    }
+
+    public void setMoves(Vector<BaseMove> moves){
+        for(BaseMove move: this.moves) {
+            this.squares[move.x][move.y].removeMove();
+        }
+        this.moves = moves;
+        for(BaseMove move: this.moves) {
+            this.squares[move.x][move.y].addMove(move);
+        }
+    }
+
+    public void resetMoves(){
+        Vector<BaseMove> moves = new Vector<>();
+        for(Piece piece: this.getPieces(this.playingSide)){
+            if(piece.canMove()) {
+                moves.add(new SelectMove(this, piece));
+            }
+        }
+        if(moves.size() == 0){
+            System.out.println("game ended");
+        }
+        this.setMoves(moves);
     }
 }

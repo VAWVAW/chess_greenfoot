@@ -1,4 +1,6 @@
 import chess.Settings;
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
 import greenfoot.World;
 
 import chess.Board;
@@ -17,12 +19,23 @@ public class GameWorld extends World {
         this.start();
     }
 
+    @Override
+    public void act(){
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+        if(mouseInfo != null && mouseInfo.getButton() == 1){
+            int x = mouseInfo.getX() - Settings.MARGIN_LEFT;
+            int y = 7 + Settings.MARGIN_TOP - mouseInfo.getY();
+            if(0 <= x && x < 8 && 0 <= y && y < 8){
+                this.board.squares[x][y].onClick();
+            }
+        }
+    }
+
     void start(){
         this.board = new Board(this);
-        Piece nextPiece = new Rook(board, true, 0, 0);
-        board.addPiece(nextPiece);
-        this.addObject(nextPiece, 0, 0);
-        nextPiece.move();
-        System.out.println(nextPiece.getMoves());
+        new Rook(this, board, true, 0, 0);
+        new Rook(this, board, false, 0, 7);
+        new Rook(this, board, false, 7, 7);
+        board.resetMoves();
     }
 }

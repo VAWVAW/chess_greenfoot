@@ -5,23 +5,26 @@ import chess.Board;
 import greenfoot.Color;
 
 public class MovementMove extends BaseMove{
-    final int x;
-    final int y;
 
     public MovementMove(Board board, Piece piece, int x, int y) {
-        super(board, piece);
-        this.x = x;
-        this.y = y;
+        super(board, piece, x, y);
     }
 
     @Override
     public void execute() {
         this.board.del(piece.getX(), piece.getY());
         this.board.set(x, y, piece);
+        piece.move(x, y);
+        this.board.togglePlayingSide();
     }
 
     @Override
     public Color getColor() {
         return Color.GREEN;
+    }
+
+    @Override
+    public int getMargin() {
+        return 16;
     }
 }

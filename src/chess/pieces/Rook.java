@@ -3,22 +3,23 @@ package chess.pieces;
 import chess.moves.*;
 import chess.Board;
 import greenfoot.GreenfootImage;
+import greenfoot.World;
 
 import java.util.Optional;
 import java.util.Vector;
 
 public class Rook extends Piece{
-    public Rook(Board board, boolean isLight, int x, int y) {
-        super(board, isLight, x, y, new GreenfootImage(isLight? "Chess_rlt64.png":"Chess_rdt64.png"));
+    public Rook(World world, Board board, boolean isLight, int x, int y) {
+        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_rlt64.png":"Chess_rdt64.png"));
     }
 
     @Override
     public Vector<BaseMove> getMoves() {
         Vector<BaseMove> retMoves = new Vector<>();
 
-        //TODO add castling
+        retMoves.add(new DeselectMove(board, this));
 
-        // check directions
+        // check directions and add movement and capture moves
         int x, y;
         Optional<Piece> otherPiece;
 
