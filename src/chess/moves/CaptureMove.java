@@ -12,11 +12,15 @@ public class CaptureMove extends MovementMove{
         this.capturedPiece = capturedPiece;
     }
 
+    public CaptureMove(Board board, Piece piece, Piece capturedPiece, int x, int y) {
+        super(board, piece, x, y);
+        this.capturedPiece = capturedPiece;
+    }
+
     @Override
     public void execute(){
-        //noinspection OptionalGetWithoutIsPresent
-        board.get(x,y).get().capture();
-        board.del(x, y);
+        capturedPiece.capture();
+        board.del(capturedPiece.getX(), capturedPiece.getY());
         super.execute();
     }
 

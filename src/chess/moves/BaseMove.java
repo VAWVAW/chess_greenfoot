@@ -17,6 +17,10 @@ public abstract class BaseMove {
         this.y = y;
     }
 
+    public Piece getPiece(){
+        return this.piece;
+    }
+
     public abstract void execute();
 
     public abstract Color getColor();

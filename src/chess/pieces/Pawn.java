@@ -1,10 +1,7 @@
 package chess.pieces;
 
 import chess.Board;
-import chess.moves.BaseMove;
-import chess.moves.CaptureMove;
-import chess.moves.DeselectMove;
-import chess.moves.MovementMove;
+import chess.moves.*;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
@@ -36,7 +33,7 @@ public class Pawn extends Piece{
             if(!this.wasMoved){
                 newY = y + (isLight? 2:-2);
                 if(board.get(x, newY).isEmpty()){
-                    retMoves.add(new MovementMove(board, this, x, newY));
+                    retMoves.add(new PawnDoubleMove(board, this, x, newY));
                 }
             }
         }
@@ -55,6 +52,13 @@ public class Pawn extends Piece{
             retMoves.add(new CaptureMove(board, this, otherPiece.get()));
         }
 
+        // en passant
+        if(board.getLastMove().isPresent() && board.getLastMove().get() instanceof PawnDoubleMove){
+            PawnDoubleMove move = (PawnDoubleMove) board.getLastMove().get();
+            if(move.y == this.y && Math.abs(move.x - this.x) == 1){
+                retMoves.add(new CaptureMove(board, this, move.getPiece(), move.x, move.y + (isLight? 1:-1)));
+            }
+        }
 
         return retMoves;
     }

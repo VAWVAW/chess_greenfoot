@@ -16,6 +16,7 @@ public class GameWorld extends World {
                 Settings.SQUARE_LEN
         );
         this.board = new Board(this);
+        Greenfoot.start();
     }
 
     @Override

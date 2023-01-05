@@ -20,8 +20,11 @@ public class Board {
     ArrayList<BaseMove> moves;
     boolean isActive = true;
 
+    Optional<BaseMove> lastMove;
+
     public Board(World world){
         this.moves = new ArrayList<>();
+        this.lastMove = Optional.empty();
 
         //noinspection MoveFieldAssignmentToInitializer,unchecked
         this.board = (Optional<Piece>[][]) new Optional[8][8];
@@ -118,6 +121,14 @@ public class Board {
             }
         }
         this.setMoves(moves);
+    }
+
+    public Optional<BaseMove> getLastMove(){
+        return this.lastMove;
+    }
+
+    public void setLastMove(BaseMove move){
+        this.lastMove = Optional.of(move);
     }
 
     public void endGame(){
