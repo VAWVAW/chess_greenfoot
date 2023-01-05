@@ -9,8 +9,8 @@ import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
+import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Vector;
 
 public abstract class Piece extends Actor {
     int x;
@@ -31,8 +31,6 @@ public abstract class Piece extends Actor {
         world.addObject(this, 0, 0);
         this.move(x, y);
         this.wasMoved = false;
-
-        board.addPiece(this);
     }
 
     public int getX(){
@@ -61,11 +59,11 @@ public abstract class Piece extends Actor {
         this.getWorld().removeObject(this);
     }
 
-    protected Vector<BaseMove> moveLine(int xChange, int yChange){
+    protected ArrayList<BaseMove> moveLine(int xChange, int yChange){
         return this.moveLine(xChange, yChange, -1);
     }
-    protected Vector<BaseMove> moveLine(int xChange, int yChange, int maxValues){
-        Vector<BaseMove> retMoves = new Vector<>();
+    protected ArrayList<BaseMove> moveLine(int xChange, int yChange, int maxValues){
+        ArrayList<BaseMove> retMoves = new ArrayList<>();
         int x = this.x + xChange;
         int y = this.y + yChange;
         Optional<Piece> otherPiece = board.get(x, y);
@@ -86,5 +84,5 @@ public abstract class Piece extends Actor {
         return !this.wasCaptured && this.getMoves().size() != 1;
     }
 
-    public abstract Vector<BaseMove> getMoves();
+    public abstract ArrayList<BaseMove> getMoves();
 }

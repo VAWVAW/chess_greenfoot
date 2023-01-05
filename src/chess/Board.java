@@ -8,26 +8,23 @@ import chess.pieces.Piece;
 import chess.pieces.Rook;
 import greenfoot.World;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
-import java.util.Vector;
 
 public class Board {
     final Optional<Piece>[][] board;
     public final Square[][] squares;
 
-    final Vector<Piece> piecesLight;
-    final Vector<Piece> piecesDark;
-    final King kingLight;
-    final King kingDark;
+    Pieces piecesLight;
+    Pieces piecesDark;
 
     boolean playingSide = true;
-    Vector<BaseMove> moves;
+    ArrayList<BaseMove> moves;
     boolean isActive = true;
 
     public Board(World world){
-        this.piecesLight = new Vector<>();
-        this.piecesDark = new Vector<>();
-        this.moves = new Vector<>();
+        this.moves = new ArrayList<>();
 
         //noinspection MoveFieldAssignmentToInitializer,unchecked
         this.board = (Optional<Piece>[][]) new Optional[8][8];
@@ -40,30 +37,29 @@ public class Board {
         }
 
         // initialise Pieces
-        this.kingLight = new King(world, this, true, 4, 0);
-        this.kingDark = new King(world, this, false, 4, 7);
-
         for(int i=0; i<2; i++){
-            new Rook(world, this, i==0, 0, i*7);
-            new Rook(world, this, i==0, 7, i*7);
-            new Bishop(world, this, i==0, 2, i*7);
-            new Bishop(world, this, i==0, 5, i*7);
+            Pieces pieces = new Pieces(
+                new King(world, this, i==0, 4, i*7),
+                Arrays.asList(
+                    new Rook(world, this, i==0, 0, i*7),
+                    new Rook(world, this, i==0, 7, i*7)
+                ),
+                Arrays.asList(
+                    new Bishop(world, this, i==0, 2, i*7),
+                    new Bishop(world, this, i==0, 5, i*7)
+                )
+            );
+
+            if(i==0){
+                this.piecesLight = pieces;
+            }
+            else this.piecesDark = pieces;
         }
 
         this.resetMoves();
     }
 
-    public void addPiece(Piece piece) {
-        if(piece.getIsLight()) {
-            this.piecesLight.add(piece);
-        }
-        else {
-            this.piecesDark.add(piece);
-        }
-        this.board[piece.getX()][piece.getY()] = Optional.of(piece);
-    }
-
-    public Vector<Piece> getPieces(boolean isLight) {
+    public Pieces getPieces(boolean isLight) {
         if(isLight) {
             return this.piecesLight;
         }
@@ -94,7 +90,7 @@ public class Board {
         this.resetMoves();
     }
 
-    public void setMoves(Vector<BaseMove> moves){
+    public void setMoves(ArrayList<BaseMove> moves){
         for(BaseMove move: this.moves) {
             this.squares[move.x][move.y].removeMove();
         }
@@ -108,8 +104,8 @@ public class Board {
     }
 
     public void resetMoves(){
-        Vector<BaseMove> moves = new Vector<>();
-        for(Piece piece: this.getPieces(this.playingSide)){
+        ArrayList<BaseMove> moves = new ArrayList<>();
+        for(Piece piece: this.getPieces(this.playingSide).all()){
             if(piece.canMove()) {
                 moves.add(new SelectMove(this, piece));
             }
@@ -119,7 +115,7 @@ public class Board {
 
     public void endGame(){
         this.isActive = false;
-        setMoves(new Vector<>());
+        setMoves(new ArrayList<>());
     }
 
     public boolean isActive(){

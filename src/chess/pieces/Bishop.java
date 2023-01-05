@@ -6,7 +6,7 @@ import chess.moves.DeselectMove;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Bishop extends Piece{
     public Bishop(World world, Board board, boolean isLight, int x, int y) {
@@ -14,8 +14,8 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public Vector<BaseMove> getMoves() {
-        Vector<BaseMove> retMoves = new Vector<>();
+    public ArrayList<BaseMove> getMoves() {
+        ArrayList<BaseMove> retMoves = new ArrayList<>();
 
         retMoves.add(new DeselectMove(board, this));
 
