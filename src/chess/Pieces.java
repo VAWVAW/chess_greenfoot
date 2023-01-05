@@ -10,11 +10,12 @@ public class Pieces {
     final ArrayList<Rook> rooks;
     final ArrayList<Bishop> bishops;
     final ArrayList<Knight> knights;
+    final ArrayList<Pawn> pawns;
 
     final King king;
     final Queen queen;
 
-    public Pieces(King king, Queen queen, List<Rook> rooks, List<Bishop> bishops, List<Knight> knights){
+    public Pieces(King king, Queen queen, List<Rook> rooks, List<Bishop> bishops, List<Knight> knights, ArrayList<Pawn> pawns){
         this.pieces = new ArrayList<>();
 
         pieces.add(king);
@@ -31,6 +32,9 @@ public class Pieces {
 
         pieces.addAll(knights);
         this.knights = new ArrayList<>(knights);
+
+        pieces.addAll(pawns);
+        this.pawns = pawns;
     }
 
     public ArrayList<Piece> all(){

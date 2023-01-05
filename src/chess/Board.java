@@ -35,6 +35,10 @@ public class Board {
 
         // initialise Pieces
         for(int i=0; i<2; i++){
+            ArrayList<Pawn> pawns = new ArrayList<>();
+            for(int j=0; j<8; j++){
+                pawns.add(new Pawn(world, this, i==0, j, 1 + i*5));
+            }
             Pieces pieces = new Pieces(
                 new King(world, this, i==0, 4, i*7),
                 new Queen(world, this, i==0, 3, i*7),
@@ -49,7 +53,8 @@ public class Board {
                 Arrays.asList(
                     new Knight(world, this, i==0, 1, i*7),
                     new Knight(world, this, i==0, 6, i*7)
-                )
+                ),
+                pawns
             );
 
             if(i==0){
