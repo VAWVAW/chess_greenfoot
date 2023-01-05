@@ -31,6 +31,8 @@ public abstract class Piece extends Actor {
         world.addObject(this, 0, 0);
         this.move(x, y);
         this.wasMoved = false;
+
+        board.set(x, y, this);
     }
 
     public int getX(){

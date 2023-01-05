@@ -15,7 +15,7 @@ public class GameWorld extends World {
                 8 + Settings.MARGIN_TOP + Settings.MARGIN_BOTTOM,
                 Settings.SQUARE_LEN
         );
-        this.start();
+        this.board = new Board(this);
     }
 
     @Override
@@ -31,9 +31,5 @@ public class GameWorld extends World {
                 this.board.squares[x][y].onClick();
             }
         }
-    }
-
-    void start(){
-        this.board = new Board(this);
     }
 }
