@@ -5,7 +5,6 @@ import chess.Board;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
-import java.util.Optional;
 import java.util.Vector;
 
 public class Rook extends Piece{
@@ -20,52 +19,18 @@ public class Rook extends Piece{
         retMoves.add(new DeselectMove(board, this));
 
         // check directions and add movement and capture moves
-        int x, y;
-        Optional<Piece> otherPiece;
 
         // towards left
-        x = this.x - 1;
-        while(x >= 0 && board.get(x, this.y).isEmpty()) {
-            retMoves.add(new MovementMove(this.board, this, x, this.y));
-            x -= 1;
-        }
-        otherPiece = board.get(x, this.y);
-        if(otherPiece.isPresent() && (otherPiece.get().isLight != this.isLight)){
-            retMoves.add(new CaptureMove(board, this, otherPiece.get()));
-        }
+        retMoves.addAll(this.moveLine(-1, 0));
 
         // towards right
-        x = this.x + 1;
-        while(x < 8 && board.get(x, this.y).isEmpty()) {
-            retMoves.add( new MovementMove(this.board, this, x, this.y));
-            x += 1;
-        }
-        otherPiece = board.get(x, this.y);
-        if(otherPiece.isPresent() && otherPiece.get().isLight != this.isLight) {
-            retMoves.add(new CaptureMove(board, this, otherPiece.get()));
-        }
+        retMoves.addAll(this.moveLine(1, 0));
 
         // towards top
-        y = this.y + 1;
-        while(y < 8 && board.get(this.x, y).isEmpty()) {
-            retMoves.add( new MovementMove(this.board, this, this.x, y));
-            y += 1;
-        }
-        otherPiece = board.get(this.x, y);
-        if(otherPiece.isPresent() && otherPiece.get().isLight != this.isLight) {
-            retMoves.add(new CaptureMove(board, this, otherPiece.get()));
-        }
+        retMoves.addAll(this.moveLine(0, 1));
 
         // towards bottom
-        y = this.y - 1;
-        while(y >= 0 && board.get(this.x, y).isEmpty()) {
-            retMoves.add( new MovementMove(this.board, this, this.x, y));
-            y -= 1;
-        }
-        otherPiece = board.get(this.x, y);
-        if(otherPiece.isPresent() && otherPiece.get().isLight != this.isLight) {
-            retMoves.add(new CaptureMove(board, this, otherPiece.get()));
-        }
+        retMoves.addAll(this.moveLine(0, -1));
 
         return retMoves;
     }

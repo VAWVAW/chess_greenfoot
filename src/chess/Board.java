@@ -2,7 +2,9 @@ package chess;
 
 import chess.moves.BaseMove;
 import chess.moves.SelectMove;
+import chess.pieces.King;
 import chess.pieces.Piece;
+import chess.pieces.Rook;
 import greenfoot.World;
 
 import java.util.Optional;
@@ -11,11 +13,15 @@ import java.util.Vector;
 public class Board {
     final Optional<Piece>[][] board;
     public final Square[][] squares;
+
     final Vector<Piece> piecesLight;
     final Vector<Piece> piecesDark;
+    final King kingLight;
+    final King kingDark;
 
     boolean playingSide = true;
     Vector<BaseMove> moves;
+    boolean isActive = true;
 
     public Board(World world){
         this.piecesLight = new Vector<>();
@@ -31,6 +37,17 @@ public class Board {
                 this.squares[x][y] = new Square(world, x, y);
             }
         }
+
+        // initialise Pieces
+        this.kingLight = new King(world, this, true, 4, 0);
+        this.kingDark = new King(world, this, false, 4, 7);
+
+        for(int i=0; i<2; i++){
+            new Rook(world, this, i==0, 0, i*7);
+            new Rook(world, this, i==0, 7, i*7);
+        }
+
+        this.resetMoves();
     }
 
     public void addPiece(Piece piece) {
@@ -79,6 +96,9 @@ public class Board {
             this.squares[move.x][move.y].removeMove();
         }
         this.moves = moves;
+        if(!this.isActive){
+            return;
+        }
         for(BaseMove move: this.moves) {
             this.squares[move.x][move.y].addMove(move);
         }
@@ -91,9 +111,15 @@ public class Board {
                 moves.add(new SelectMove(this, piece));
             }
         }
-        if(moves.size() == 0){
-            System.out.println("game ended");
-        }
         this.setMoves(moves);
+    }
+
+    public void endGame(){
+        this.isActive = false;
+        setMoves(new Vector<>());
+    }
+
+    public boolean isActive(){
+        return this.isActive;
     }
 }

@@ -4,7 +4,6 @@ import greenfoot.MouseInfo;
 import greenfoot.World;
 
 import chess.Board;
-import chess.pieces.*;
 
 public class GameWorld extends World {
 
@@ -21,6 +20,9 @@ public class GameWorld extends World {
 
     @Override
     public void act(){
+        if(!board.isActive()){
+            return;
+        }
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
         if(mouseInfo != null && mouseInfo.getButton() == 1){
             int x = mouseInfo.getX() - Settings.MARGIN_LEFT;
@@ -33,9 +35,5 @@ public class GameWorld extends World {
 
     void start(){
         this.board = new Board(this);
-        new Rook(this, board, true, 0, 0);
-        new Rook(this, board, false, 0, 7);
-        new Rook(this, board, false, 7, 7);
-        board.resetMoves();
     }
 }
