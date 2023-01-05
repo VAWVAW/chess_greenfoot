@@ -45,6 +45,10 @@ public class Board {
                 Arrays.asList(
                     new Bishop(world, this, i==0, 2, i*7),
                     new Bishop(world, this, i==0, 5, i*7)
+                ),
+                Arrays.asList(
+                    new Knight(world, this, i==0, 1, i*7),
+                    new Knight(world, this, i==0, 6, i*7)
                 )
             );
 
