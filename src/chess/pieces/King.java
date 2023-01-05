@@ -2,6 +2,7 @@ package chess.pieces;
 
 import chess.Board;
 import chess.moves.BaseMove;
+import chess.moves.CastleMove;
 import chess.moves.DeselectMove;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
@@ -19,8 +20,23 @@ public class King extends Piece{
 
         retMoves.add(new DeselectMove(board, this));
 
-        // check directions and add movement and capture moves
+        // check castling
+        if(!this.wasMoved){
+            for(Rook rook: board.getPieces(isLight).rooks()){
+                if(!rook.wasMoved) {
+                    int x = this.x;
+                    do{
+                        x += this.x > rook.x ? -1 : 1;
+                    } while(board.get(x, this.y).isEmpty());
 
+                    if(board.get(x, this.y).get() == rook){
+                        retMoves.add(new CastleMove(board, this, rook));
+                    }
+                }
+            }
+        }
+
+        // check directions and add movement and capture moves
         // towards left
         retMoves.addAll(this.moveLine(-1, 0, 1));
         // towards right
