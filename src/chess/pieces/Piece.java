@@ -4,6 +4,8 @@ import chess.Settings;
 import chess.moves.BaseMove;
 import chess.Board;
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
+
 import java.util.Vector;
 
 public abstract class Piece extends Actor {
@@ -11,12 +13,15 @@ public abstract class Piece extends Actor {
     int y;
     final boolean isLight; //also called white
     final Board board;
+    final GreenfootImage image;
 
-    public Piece(Board board, boolean isLight, int x, int y) {
+    public Piece(Board board, boolean isLight, int x, int y, GreenfootImage image) {
         this.board = board;
         this.isLight = isLight;
         this.x = x;
         this.y = y;
+        this.image = image;
+        this.setImage(image);
     }
 
     public int getX(){
@@ -34,5 +39,4 @@ public abstract class Piece extends Actor {
     }
 
     public abstract Vector<BaseMove> getMoves();
-
 }

@@ -2,13 +2,14 @@ package chess.pieces;
 
 import chess.moves.*;
 import chess.Board;
+import greenfoot.GreenfootImage;
 
 import java.util.Optional;
 import java.util.Vector;
 
 public class Rook extends Piece{
     public Rook(Board board, boolean isLight, int x, int y) {
-        super(board, isLight, x, y);
+        super(board, isLight, x, y, new GreenfootImage(isLight? "Chess_rlt64.png":"Chess_rdt64.png"));
     }
 
     @Override
