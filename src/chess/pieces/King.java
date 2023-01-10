@@ -10,8 +10,15 @@ import greenfoot.World;
 import java.util.ArrayList;
 
 public class King extends Piece{
-    public King(World world, Board board, boolean isLight, int x, int y) {
-        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_klt64.png":"Chess_kdt64.png"));
+    static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_klt64.png"), new GreenfootImage("Chess_kdt64.png")};
+
+    public King(World world, Board board, int side, int x, int y) {
+        super(world, board, side, x, y);
+    }
+
+    @Override
+    public GreenfootImage getPieceImage(int side) {
+        return image[side];
     }
 
     @Override
@@ -22,7 +29,7 @@ public class King extends Piece{
 
         // check castling
         if(!this.wasMoved){
-            for(Rook rook: board.getPieces(isLight).rooks()){
+            for(Rook rook: board.getPieces(side).rooks()){
                 if(!rook.wasMoved) {
                     int x = this.x;
                     do{

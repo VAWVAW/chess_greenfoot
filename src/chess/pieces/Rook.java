@@ -8,8 +8,15 @@ import greenfoot.World;
 import java.util.ArrayList;
 
 public class Rook extends Piece{
-    public Rook(World world, Board board, boolean isLight, int x, int y) {
-        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_rlt64.png":"Chess_rdt64.png"));
+    static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_rlt64.png"), new GreenfootImage("Chess_rdt64.png")};
+
+    public Rook(World world, Board board, int side, int x, int y) {
+        super(world, board, side, x, y);
+    }
+
+    @Override
+    public GreenfootImage getPieceImage(int side) {
+        return image[side];
     }
 
     @Override

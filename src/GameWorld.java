@@ -7,7 +7,7 @@ import chess.Board;
 
 public class GameWorld extends World {
 
-    Board board;
+    final Board board;
 
     public GameWorld() {
         super(

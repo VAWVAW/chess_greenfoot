@@ -12,8 +12,15 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Knight extends Piece{
-    public Knight(World world, Board board, boolean isLight, int x, int y) {
-        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_nlt64.png":"Chess_ndt64.png"));
+    static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_nlt64.png"), new GreenfootImage("Chess_ndt64.png")};
+
+    public Knight(World world, Board board, int side, int x, int y) {
+        super(world, board, side, x, y);
+    }
+
+    @Override
+    public GreenfootImage getPieceImage(int side) {
+        return image[side];
     }
 
     Optional<BaseMove> genMove(int x, int y){
@@ -24,7 +31,7 @@ public class Knight extends Piece{
         if(otherPiece.isEmpty()){
             return Optional.of(new MovementMove(board, this, x, y));
         }
-        if(otherPiece.get().isLight == this.isLight){
+        if(otherPiece.get().side == this.side){
             return Optional.empty();
         }
         return Optional.of(new CaptureMove(board, this, otherPiece.get()));

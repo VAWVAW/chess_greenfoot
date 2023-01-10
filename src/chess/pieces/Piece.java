@@ -17,16 +17,15 @@ public abstract class Piece extends Actor {
     int y;
     boolean wasMoved;
     boolean wasCaptured = false;
-    final boolean isLight; //also called white
+    // 0 => light (white); 1 => dark (black)
+    final int side;
     final Board board;
-    final GreenfootImage image;
 
-    public Piece(World world, Board board, boolean isLight, int x, int y, GreenfootImage image) {
+    public Piece(World world, Board board, int side, int x, int y) {
         this.board = board;
-        this.isLight = isLight;
+        this.side = side;
 
-        this.image = image;
-        this.setImage(image);
+        this.setImage(this.getPieceImage(side));
 
         world.addObject(this, 0, 0);
         this.move(x, y);
@@ -41,19 +40,14 @@ public abstract class Piece extends Actor {
     public int getY(){
         return this.y;
     }
-    public boolean getIsLight(){
-        return this.isLight;
-    }
+
+    public abstract GreenfootImage getPieceImage(int side);
 
     public void move(int x, int y){
         this.x = x;
         this.y = y;
         this.wasMoved = true;
         this.setLocation(x + Settings.MARGIN_LEFT, 7 + Settings.MARGIN_TOP - y);
-    }
-
-    public boolean wasMoved(){
-        return this.wasMoved;
     }
 
     public void capture(){
@@ -76,7 +70,7 @@ public abstract class Piece extends Actor {
             maxValues -= 1;
             otherPiece = board.get(x, y);
         }
-        if(maxValues != 0 && otherPiece.isPresent() && otherPiece.get().isLight != this.isLight) {
+        if(maxValues != 0 && otherPiece.isPresent() && otherPiece.get().side != this.side) {
             retMoves.add(new CaptureMove(board, this, otherPiece.get()));
         }
         return retMoves;

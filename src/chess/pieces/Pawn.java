@@ -9,8 +9,15 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Pawn extends Piece{
-    public Pawn(World world, Board board, boolean isLight, int x, int y) {
-        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_plt64.png":"Chess_pdt64.png"));
+    static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_plt64.png"), new GreenfootImage("Chess_pdt64.png")};
+
+    public Pawn(World world, Board board, int side, int x, int y) {
+        super(world, board, side, x, y);
+    }
+
+    @Override
+    public GreenfootImage getPieceImage(int side) {
+        return image[side];
     }
 
     @Override
@@ -20,7 +27,7 @@ public class Pawn extends Piece{
 
         retMoves.add(new DeselectMove(board, this));
 
-        newY = y + (isLight? 1:-1);
+        newY = y + (side==0 ? 1:-1);
         if(newY < 0 || newY > 7){
             //todo add promotion
             return retMoves;
@@ -31,7 +38,7 @@ public class Pawn extends Piece{
             retMoves.add(new MovementMove(board, this, x, newY));
 
             if(!this.wasMoved){
-                newY = y + (isLight? 2:-2);
+                newY = y + (side==0 ? 2:-2);
                 if(board.get(x, newY).isEmpty()){
                     retMoves.add(new PawnDoubleMove(board, this, x, newY));
                 }
@@ -41,14 +48,14 @@ public class Pawn extends Piece{
         // captures
         Optional<Piece> otherPiece;
 
-        newY = y + (isLight? 1:-1);
+        newY = y + (side==0 ? 1:-1);
         otherPiece = board.get(x+1, newY);
-        if(otherPiece.isPresent() && (otherPiece.get().isLight != this.isLight)) {
+        if(otherPiece.isPresent() && (otherPiece.get().side != this.side)) {
             retMoves.add(new CaptureMove(board, this, otherPiece.get()));
         }
 
         otherPiece = board.get(x-1, newY);
-        if(otherPiece.isPresent() && (otherPiece.get().isLight != this.isLight)) {
+        if(otherPiece.isPresent() && (otherPiece.get().side != this.side)) {
             retMoves.add(new CaptureMove(board, this, otherPiece.get()));
         }
 
@@ -56,7 +63,7 @@ public class Pawn extends Piece{
         if(board.getLastMove().isPresent() && board.getLastMove().get() instanceof PawnDoubleMove){
             PawnDoubleMove move = (PawnDoubleMove) board.getLastMove().get();
             if(move.y == this.y && Math.abs(move.x - this.x) == 1){
-                retMoves.add(new CaptureMove(board, this, move.getPiece(), move.x, move.y + (isLight? 1:-1)));
+                retMoves.add(new CaptureMove(board, this, move.getPiece(), move.x, move.y + (side==0 ? 1:-1)));
             }
         }
 

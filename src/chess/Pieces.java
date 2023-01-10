@@ -41,15 +41,8 @@ public class Pieces {
         return this.pieces;
     }
 
-    public King king(){
-        return this.king;
-    }
-
     public ArrayList<Rook> rooks(){
         return this.rooks;
     }
 
-    public ArrayList<Bishop> bishops(){
-        return this.bishops;
-    }
 }

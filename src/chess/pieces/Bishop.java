@@ -9,8 +9,15 @@ import greenfoot.World;
 import java.util.ArrayList;
 
 public class Bishop extends Piece{
-    public Bishop(World world, Board board, boolean isLight, int x, int y) {
-        super(world, board, isLight, x, y, new GreenfootImage(isLight? "Chess_blt64.png":"Chess_bdt64.png"));
+    static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_blt64.png"), new GreenfootImage("Chess_bdt64.png")};
+
+    public Bishop(World world, Board board, int side, int x, int y) {
+        super(world, board, side, x, y);
+    }
+
+    @Override
+    public GreenfootImage getPieceImage(int side) {
+        return image[side];
     }
 
     @Override
