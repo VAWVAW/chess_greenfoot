@@ -1,6 +1,7 @@
 package chess;
 
 import chess.moves.BaseMove;
+import chess.moves.ChoiceMove;
 import chess.moves.SelectMove;
 import chess.pieces.*;
 import greenfoot.World;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public class Board {
     final Optional<Piece>[][] board;
     public final Square[][] squares;
+    public final ChoiceSquare[] choiceSquares;
 
     final Pieces[] pieces;
 
@@ -28,11 +30,13 @@ public class Board {
         //noinspection unchecked
         this.board = (Optional<Piece>[][]) new Optional[8][8];
         this.squares = new Square[8][8];
-        for(int x=0; x<8; x++){
+        this.choiceSquares = new ChoiceSquare[8];
+        for(int i=0; i<8; i++){
             for(int y=0; y<8; y++){
-                this.board[x][y] = Optional.empty();
-                this.squares[x][y] = new Square(world, x, y);
+                this.board[i][y] = Optional.empty();
+                this.squares[i][y] = new Square(world, i, y);
             }
+            this.choiceSquares[i] = new ChoiceSquare(world, i);
         }
 
         // initialise Pieces
@@ -89,13 +93,18 @@ public class Board {
         }
     }
 
-    public void togglePlayingSide(){
+    public void togglePlayingSide(BaseMove lastMove){
+        this.lastMove = Optional.of(lastMove);
         this.playingSide = (this.playingSide + 1) % 2;
         this.resetMoves();
     }
 
     public void setMoves(ArrayList<BaseMove> moves){
         for(BaseMove move: this.moves) {
+            if(move instanceof ChoiceMove){
+                this.choiceSquares[move.y].removeMove();
+                continue;
+            }
             this.squares[move.x][move.y].removeMove();
         }
         this.moves = moves;
@@ -103,6 +112,10 @@ public class Board {
             return;
         }
         for(BaseMove move: this.moves) {
+            if(move instanceof ChoiceMove){
+                this.choiceSquares[move.y].addChoiceMove((ChoiceMove) move);
+                continue;
+            }
             this.squares[move.x][move.y].addMove(move);
         }
     }
@@ -119,10 +132,6 @@ public class Board {
 
     public Optional<BaseMove> getLastMove(){
         return this.lastMove;
-    }
-
-    public void setLastMove(BaseMove move){
-        this.lastMove = Optional.of(move);
     }
 
     public void endGame(){

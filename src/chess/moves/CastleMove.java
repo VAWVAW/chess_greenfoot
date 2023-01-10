@@ -16,8 +16,7 @@ public class CastleMove extends MovementMove{
     public void execute() {
         super.execute();
         rookMove.execute();
-        this.board.togglePlayingSide();
-        this.board.setLastMove(this);
+        this.board.togglePlayingSide(this);
     }
 
     @Override

@@ -8,33 +8,32 @@ import java.util.List;
 public class Pieces {
     final ArrayList<Piece> pieces;
     final ArrayList<Rook> rooks;
-    final ArrayList<Bishop> bishops;
-    final ArrayList<Knight> knights;
-    final ArrayList<Pawn> pawns;
-
-    final King king;
-    final Queen queen;
 
     public Pieces(King king, Queen queen, List<Rook> rooks, List<Bishop> bishops, List<Knight> knights, ArrayList<Pawn> pawns){
+
         this.pieces = new ArrayList<>();
 
         pieces.add(king);
-        this.king = king;
+        //this.king = king;
 
         pieces.add(queen);
-        this.queen = queen;
+        //this.queen = queen;
 
         pieces.addAll(rooks);
         this.rooks = new ArrayList<>(rooks);
 
         pieces.addAll(bishops);
-        this.bishops = new ArrayList<>(bishops);
+        //this.bishops = new ArrayList<>(bishops);
 
         pieces.addAll(knights);
-        this.knights = new ArrayList<>(knights);
+        //this.knights = new ArrayList<>(knights);
 
         pieces.addAll(pawns);
-        this.pawns = pawns;
+        //this.pawns = pawns;
+    }
+
+    public void addPiece(Piece piece) {
+        this.pieces.add(piece);
     }
 
     public ArrayList<Piece> all(){

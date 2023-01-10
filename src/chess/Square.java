@@ -10,7 +10,7 @@ public class Square extends Actor {
     final int x;
     final int y;
     final GreenfootImage image;
-    final Color standardColor;
+    Color standardColor;
     Optional<BaseMove> move;
 
     public Square(World world, int x, int y){

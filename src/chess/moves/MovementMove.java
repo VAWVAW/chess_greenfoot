@@ -15,8 +15,7 @@ public class MovementMove extends BaseMove{
         this.board.del(piece.getX(), piece.getY());
         this.board.set(x, y, piece);
         piece.move(x, y);
-        this.board.togglePlayingSide();
-        this.board.setLastMove(this);
+        this.board.togglePlayingSide(this);
     }
 
     @Override

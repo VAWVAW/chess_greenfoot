@@ -15,8 +15,8 @@ public class Pawn extends Piece{
         super(world, board, side, x, y);
     }
 
-    @Override
-    public GreenfootImage getPieceImage(int side) {
+    @SuppressWarnings("unused")
+    public static GreenfootImage getPieceImage(int side) {
         return image[side];
     }
 
@@ -29,7 +29,7 @@ public class Pawn extends Piece{
 
         newY = y + (side==0 ? 1:-1);
         if(newY < 0 || newY > 7){
-            //todo add promotion
+            retMoves.addAll(PromotionMove.generate(board, this));
             return retMoves;
         }
 

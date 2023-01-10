@@ -18,8 +18,8 @@ public class Knight extends Piece{
         super(world, board, side, x, y);
     }
 
-    @Override
-    public GreenfootImage getPieceImage(int side) {
+    @SuppressWarnings("unused")
+    public static GreenfootImage getPieceImage(int side) {
         return image[side];
     }
 

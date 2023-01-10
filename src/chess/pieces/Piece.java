@@ -9,6 +9,7 @@ import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,7 +26,11 @@ public abstract class Piece extends Actor {
         this.board = board;
         this.side = side;
 
-        this.setImage(this.getPieceImage(side));
+        try {
+            this.setImage((GreenfootImage) this.getClass().getMethod("getPieceImage", int.class).invoke(this, side));
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
         world.addObject(this, 0, 0);
         this.move(x, y);
@@ -40,8 +45,9 @@ public abstract class Piece extends Actor {
     public int getY(){
         return this.y;
     }
-
-    public abstract GreenfootImage getPieceImage(int side);
+    public int getSide(){
+        return side;
+    }
 
     public void move(int x, int y){
         this.x = x;

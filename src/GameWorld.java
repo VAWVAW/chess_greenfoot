@@ -11,9 +11,9 @@ public class GameWorld extends World {
 
     public GameWorld() {
         super(
-                8 + Settings.MARGIN_LEFT + Settings.MARGIN_RIGHT,
-                8 + Settings.MARGIN_TOP + Settings.MARGIN_BOTTOM,
-                Settings.SQUARE_LEN
+            8 + Settings.MARGIN_LEFT + Settings.MARGIN_RIGHT,
+            8 + Settings.MARGIN_TOP + Settings.MARGIN_BOTTOM,
+            Settings.SQUARE_LEN
         );
         this.board = new Board(this);
         Greenfoot.start();
@@ -30,6 +30,8 @@ public class GameWorld extends World {
             int y = 7 + Settings.MARGIN_TOP - mouseInfo.getY();
             if(0 <= x && x < 8 && 0 <= y && y < 8){
                 this.board.squares[x][y].onClick();
+            } else if (x == Settings.CHOICE_SQUARE_X && 0 <= y && y < 8) {
+                this.board.choiceSquares[y].onClick();
             }
         }
     }
