@@ -17,6 +17,7 @@ public class Board {
 
     final Pieces[] pieces;
 
+    // 0 => light (white); 1 => dark (black)
     int playingSide = 0;
     ArrayList<BaseMove> moves;
     boolean isActive = true;

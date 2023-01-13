@@ -8,18 +8,35 @@ import greenfoot.World;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a chess queen
+ */
 public class Queen extends Piece{
     static final GreenfootImage[] image = new GreenfootImage[] {new GreenfootImage("Chess_qlt64.png"), new GreenfootImage("Chess_qdt64.png")};
 
+    /**
+     * Generates the queen and adds it to the world and the board.
+     * @param world the world to add the piece to
+     * @param board the board to add the piece to
+     * @param side the side of the piece
+     * @param x the x-position on the board
+     * @param y the y-position on the board
+     */
     public Queen(World world, Board board, int side, int x, int y) {
         super(world, board, side, x, y);
     }
 
+    /**
+     * Returns the image of the piece for the given side.
+     * @param side the side (color) of the piece
+     * @return the image of the piece
+     */
     @SuppressWarnings("unused")
     public static GreenfootImage getPieceImage(int side) {
         return image[side];
     }
 
+    /** {@inheritDoc} */
     @Override
     public ArrayList<BaseMove> getMoves() {
         ArrayList<BaseMove> retMoves = new ArrayList<>();
