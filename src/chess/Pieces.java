@@ -5,6 +5,9 @@ import chess.pieces.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Organises the pieces for each side.
+ */
 public class Pieces {
     final ArrayList<Piece> pieces;
     final ArrayList<Rook> rooks;
@@ -31,10 +34,16 @@ public class Pieces {
         this.pieces.add(piece);
     }
 
+    /**
+     * Returns all pieces for this side.
+     */
     public ArrayList<Piece> all(){
         return this.pieces;
     }
 
+    /**
+     * Returns all rooks for this side.
+     */
     public ArrayList<Rook> rooks(){
         return this.rooks;
     }

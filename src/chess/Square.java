@@ -5,6 +5,10 @@ import greenfoot.*;
 
 import java.util.Optional;
 
+/**
+ * Represents a field on the chess board.
+ * This class is used to represent the possible moves a player can make.
+ */
 public class Square extends Actor {
 
     final int x;
@@ -13,6 +17,12 @@ public class Square extends Actor {
     Color standardColor;
     Optional<BaseMove> move;
 
+    /**
+     * Generates a new Square. The bottom left square has coordinates (0, 0).
+     * @param world the world to operate on
+     * @param x the x-coordinate on the board
+     * @param y the y-coordinate on the board
+     */
     public Square(World world, int x, int y){
         this.x = x;
         this.y = y;
@@ -31,10 +41,17 @@ public class Square extends Actor {
         this.move = Optional.empty();
     }
 
+    /**
+     * Executes the associated {@link BaseMove Move}.
+     */
     public void onClick(){
         this.move.ifPresent(BaseMove::execute);
     }
 
+    /**
+     * Associate a {@link BaseMove Move} to this square and display its color.
+     * @param move the move to add
+     */
     public void addMove(BaseMove move){
         this.move = Optional.of(move);
         this.image.setColor(move.getColor());
@@ -43,6 +60,9 @@ public class Square extends Actor {
         this.setImage(image);
     }
 
+    /**
+     * Clear the associated {@link BaseMove Move}.
+     */
     public void removeMove(){
         this.move = Optional.empty();
         this.image.setColor(this.standardColor);
