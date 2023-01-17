@@ -83,11 +83,12 @@ public abstract class Piece extends Actor {
     }
 
     /**
-     * Remove the piece from the world and future evaluations.
+     * Remove the piece from the board, the world and future evaluations.
      */
     public void capture(){
         this.wasCaptured = true;
         this.getWorld().removeObject(this);
+        this.board.del(x, y);
     }
 
     /**

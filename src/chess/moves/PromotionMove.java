@@ -10,14 +10,32 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+/**
+ * Represents a promotion choice in chess.
+ */
 public class PromotionMove extends ChoiceMove{
     private final Class<? extends Piece> optionClass;
 
+    //TODO limit to only accept Pawn
+    /**
+     * Generates a new PromotionMove.
+     * @param board the board to operate on
+     * @param piece the piece to operate on
+     * @param y the y-coordinate to display the choice on
+     * @param option the class of the piece to promote to
+        (has to implement the method `static GreenfootImage getPieceImage(int)`)
+     */
     private PromotionMove(Board board, Piece piece, int y, Class<? extends Piece> option) {
         super(board, piece, y);
         this.optionClass = option;
     }
 
+    /**
+     * Generates all PromotionMoves for a given Piece. (Queen, Rook, Bishop, Knight)
+     * @param board the board to operate on
+     * @param piece the piece to promote
+     * @return all promotion moves in base chess
+     */
     public static ArrayList<PromotionMove> generate(Board board, Piece piece) {
         ArrayList<PromotionMove> retMoves = new ArrayList<>();
 
@@ -29,39 +47,41 @@ public class PromotionMove extends ChoiceMove{
         return retMoves;
     }
 
+    /**
+     * Swaps the old piece with a newly generated piece of the stored class.
+     */
     @Override
     public void execute() {
         Piece newPiece;
-        // generate new piece
+        Piece oldPiece = this.piece;
+
         try {
             Constructor<?>[] constructors = this.optionClass.getConstructors();
-            newPiece = (Piece) constructors[0].newInstance(piece.getWorld(), board, piece.getSide(), piece.getX(), piece.getY());
+            newPiece = (Piece) constructors[0].newInstance(oldPiece.getWorld(), board, oldPiece.getSide(), oldPiece.getX(), oldPiece.getY());
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
-        // remove old piece
-        piece.capture();
-        board.del(piece.getX(), piece.getY());
+        oldPiece.capture();
 
-        // add new piece
+        board.getPieces(oldPiece.getSide()).addPiece(newPiece);
+        board.set(oldPiece.getX(), oldPiece.getY(), newPiece);
         board.togglePlayingSide(this);
-        board.set(piece.getX(), piece.getY(), newPiece);
-
-        board.getPieces(piece.getSide()).addPiece(newPiece);
-
     }
 
+    /** {@inheritDoc} */
     @Override
     public Color getColor() {
         return new Color(151, 0, 151);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getMargin() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public GreenfootImage getImage() {
         GreenfootImage image;

@@ -14,7 +14,7 @@ public abstract class BaseMove {
     public final int y;
 
     /**
-     * Generate a move and store the used data.
+     * Generates a move and store the used data.
      * @param board the board to operate on
      * @param piece the piece to operate on
      * @param x the x-coordinate for display
@@ -35,12 +35,12 @@ public abstract class BaseMove {
     }
 
     /**
-     * Execute the action associated with this move.
+     * Execute the action associated with this move
      */
     public abstract void execute();
 
     /**
-     * Returns to be displayed for this move.
+     * Returns the Color to be displayed for this move.
      */
     public abstract Color getColor();
 
