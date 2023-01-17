@@ -14,22 +14,17 @@ public class Pieces {
         this.pieces = new ArrayList<>();
 
         pieces.add(king);
-        //this.king = king;
 
         pieces.add(queen);
-        //this.queen = queen;
 
         pieces.addAll(rooks);
         this.rooks = new ArrayList<>(rooks);
 
         pieces.addAll(bishops);
-        //this.bishops = new ArrayList<>(bishops);
 
         pieces.addAll(knights);
-        //this.knights = new ArrayList<>(knights);
 
         pieces.addAll(pawns);
-        //this.pawns = pawns;
     }
 
     public void addPiece(Piece piece) {

@@ -8,6 +8,7 @@ import greenfoot.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class Board {
@@ -47,27 +48,28 @@ public class Board {
             for(int j=0; j<8; j++){
                 pawns.add(new Pawn(world, this, i, j, 1 + i*5));
             }
+            List<Rook> rooks = Arrays.asList(
+                new Rook(world, this, i, 0, i*7),
+                new Rook(world, this, i, 7, i*7)
+            );
+            List<Bishop> bishops = Arrays.asList(
+                new Bishop(world, this, i, 2, i*7),
+                new Bishop(world, this, i, 5, i*7)
+            );
+            List<Knight> knights = Arrays.asList(
+                new Knight(world, this, i, 1, i*7),
+                new Knight(world, this, i, 6, i*7)
+            );
             Pieces pieces = new Pieces(
                 new King(world, this, i, 4, i*7),
                 new Queen(world, this, i, 3, i*7),
-                Arrays.asList(
-                    new Rook(world, this, i, 0, i*7),
-                    new Rook(world, this, i, 7, i*7)
-                ),
-                Arrays.asList(
-                    new Bishop(world, this, i, 2, i*7),
-                    new Bishop(world, this, i, 5, i*7)
-                ),
-                Arrays.asList(
-                    new Knight(world, this, i, 1, i*7),
-                    new Knight(world, this, i, 6, i*7)
-                ),
+                rooks,
+                bishops,
+                knights,
                 pawns
             );
-
             this.pieces[i] = pieces;
         }
-
         this.resetMoves();
     }
 

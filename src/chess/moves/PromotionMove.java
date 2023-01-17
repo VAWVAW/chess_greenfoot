@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class PromotionMove extends ChoiceMove{
     private final Class<? extends Piece> optionClass;
 
-    //TODO limit to only accept Pawn
     /**
      * Generates a new PromotionMove.
      * @param board the board to operate on
@@ -25,7 +24,7 @@ public class PromotionMove extends ChoiceMove{
      * @param option the class of the piece to promote to
         (has to implement the method `static GreenfootImage getPieceImage(int)`)
      */
-    private PromotionMove(Board board, Piece piece, int y, Class<? extends Piece> option) {
+    private PromotionMove(Board board, Pawn piece, int y, Class<? extends Piece> option) {
         super(board, piece, y);
         this.optionClass = option;
     }
@@ -36,7 +35,7 @@ public class PromotionMove extends ChoiceMove{
      * @param piece the piece to promote
      * @return all promotion moves in base chess
      */
-    public static ArrayList<PromotionMove> generate(Board board, Piece piece) {
+    public static ArrayList<PromotionMove> generate(Board board, Pawn piece) {
         ArrayList<PromotionMove> retMoves = new ArrayList<>();
 
         retMoves.add(new PromotionMove(board, piece, 7, Queen.class));
