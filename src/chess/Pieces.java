@@ -11,12 +11,14 @@ import java.util.List;
 public class Pieces {
     final ArrayList<Piece> pieces;
     final ArrayList<Rook> rooks;
+    final King king;
 
     public Pieces(King king, Queen queen, List<Rook> rooks, List<Bishop> bishops, List<Knight> knights, ArrayList<Pawn> pawns){
 
         this.pieces = new ArrayList<>();
 
         pieces.add(king);
+        this.king = king;
 
         pieces.add(queen);
 
@@ -48,4 +50,10 @@ public class Pieces {
         return this.rooks;
     }
 
+    /**
+     * Returns the king for this side.
+     */
+    public King king() {
+        return this.king;
+    }
 }

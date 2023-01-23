@@ -92,4 +92,10 @@ public class PromotionMove extends ChoiceMove{
         }
         return image;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isInvalid() {
+        return this.board.getKing().isInCheck();
+    }
 }

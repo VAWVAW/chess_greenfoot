@@ -15,6 +15,7 @@ public class Square extends Actor {
     final int y;
     final GreenfootImage image;
     Color standardColor;
+    Optional<Color> highlightColor;
     Optional<BaseMove> move;
 
     /**
@@ -39,6 +40,42 @@ public class Square extends Actor {
 
         world.addObject(this, this.x + Settings.MARGIN_LEFT, 7 + Settings.MARGIN_TOP - this.y);
         this.move = Optional.empty();
+        this.highlightColor = Optional.empty();
+    }
+
+    void drawImage() {
+        int margin = 0;
+
+        if(this.highlightColor.isPresent()) {
+            this.image.setColor(this.highlightColor.get());
+            this.image.fill();
+
+            margin = Settings.HIGHLIGHT_MARGIN;
+        }
+        this.image.setColor(this.standardColor);
+        this.image.fillRect(margin, margin, Settings.SQUARE_LEN - margin*2, Settings.SQUARE_LEN - margin*2);
+
+        if(this.move.isPresent()){
+            BaseMove move = this.move.get();
+            this.image.setColor(move.getColor());
+            margin = Math.max(margin, move.getMargin());
+            this.image.fillRect(margin, margin, Settings.SQUARE_LEN - margin*2, Settings.SQUARE_LEN - margin*2);
+        }
+
+        this.setImage(image);
+    }
+
+    /**
+     * Set the color to highlight this square with.
+     */
+    public void setHighlightColor(Color highlightColor) {
+        this.highlightColor = Optional.of(highlightColor);
+        this.drawImage();
+    }
+
+    public void resetHighlightColor() {
+        this.highlightColor = Optional.empty();
+        this.drawImage();
     }
 
     /**
@@ -54,10 +91,7 @@ public class Square extends Actor {
      */
     public void addMove(BaseMove move){
         this.move = Optional.of(move);
-        this.image.setColor(move.getColor());
-        int margin = move.getMargin();
-        this.image.fillRect(margin, margin, Settings.SQUARE_LEN - margin*2, Settings.SQUARE_LEN - margin*2);
-        this.setImage(image);
+        this.drawImage();
     }
 
     /**
@@ -65,7 +99,6 @@ public class Square extends Actor {
      */
     public void removeMove(){
         this.move = Optional.empty();
-        this.image.setColor(this.standardColor);
-        this.image.fill();
+        this.drawImage();
     }
 }

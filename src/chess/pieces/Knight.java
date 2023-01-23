@@ -2,14 +2,11 @@ package chess.pieces;
 
 import chess.Board;
 import chess.moves.BaseMove;
-import chess.moves.CaptureMove;
 import chess.moves.DeselectMove;
-import chess.moves.MovementMove;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Represents a chess knight
@@ -39,20 +36,6 @@ public class Knight extends Piece{
         return image[side];
     }
 
-    Optional<BaseMove> genMove(int x, int y){
-        if(!(0 <= x && x < 8 && 0 <= y && y < 8)){
-            return Optional.empty();
-        }
-        Optional<Piece> otherPiece = board.get(x, y);
-        if(otherPiece.isEmpty()){
-            return Optional.of(new MovementMove(board, this, x, y));
-        }
-        if(otherPiece.get().side == this.side){
-            return Optional.empty();
-        }
-        return Optional.of(new CaptureMove(board, this, otherPiece.get()));
-    }
-
     /** {@inheritDoc} */
     @Override
     public ArrayList<BaseMove> getMoves() {
@@ -78,6 +61,7 @@ public class Knight extends Piece{
         this.genMove(x-2, y+1).ifPresent(retMoves::add);
         this.genMove(x-2, y-1).ifPresent(retMoves::add);
 
+        retMoves.removeIf(BaseMove::isInvalid);
         return retMoves;
     }
 }

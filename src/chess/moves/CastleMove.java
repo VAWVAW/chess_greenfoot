@@ -36,4 +36,11 @@ public class CastleMove extends MovementMove{
     public Color getColor() {
         return new Color(0, 100, 0);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isInvalid() {
+        //todo check all squares for check
+        return false;
+    }
 }

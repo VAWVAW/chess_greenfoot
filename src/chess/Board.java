@@ -2,8 +2,10 @@ package chess;
 
 import chess.moves.BaseMove;
 import chess.moves.ChoiceMove;
+import chess.moves.MovementMove;
 import chess.moves.SelectMove;
 import chess.pieces.*;
+import greenfoot.Color;
 import greenfoot.World;
 
 import java.util.ArrayList;
@@ -122,12 +124,31 @@ public class Board {
         }
     }
 
+
+    /**
+     * Tests whether the king is in check after a movement.
+     */
+    public boolean testMoveCheck(MovementMove move) {
+        Optional<Piece> oldPiece = this.board[move.x][move.y];
+
+        this.board[move.piece.getX()][move.piece.getY()] = Optional.empty();
+        this.board[move.x][move.y] = Optional.of(move.piece);
+
+        boolean isInCheck = this.getKing().isInCheck();
+
+        this.board[move.piece.getX()][move.piece.getY()] = Optional.of(move.piece);
+        this.board[move.x][move.y] = oldPiece;
+
+        return isInCheck;
+    }
+
     /**
      * Toggles the player and generates all possible moves.
      * @param lastMove the move that was executed
      */
     public void togglePlayingSide(BaseMove lastMove){
         this.lastMove = Optional.of(lastMove);
+        this.squares[this.getKing().getX()][this.getKing().getY()].resetHighlightColor();
         this.playingSide = (this.playingSide + 1) % 2;
         this.resetMoves();
     }
@@ -160,6 +181,15 @@ public class Board {
      * Clears all moves and generates {@link SelectMove SelectMoves} for all pieces.
      */
     public void resetMoves(){
+        King king = this.getPieces(this.playingSide).king();
+
+        if(king.isInCheck()) {
+            this.squares[king.getX()][king.getY()].setHighlightColor(Color.RED);
+        }
+        else {
+            this.squares[king.getX()][king.getY()].resetHighlightColor();
+        }
+
         ArrayList<BaseMove> moves = new ArrayList<>();
         for(Piece piece: this.getPieces(this.playingSide).all()){
             if(piece.canMove()) {
@@ -191,4 +221,12 @@ public class Board {
     public boolean isActive(){
         return this.isActive;
     }
+
+    /**
+     * Returns the king of the playing side.
+     */
+    public King getKing() {
+        return this.getPieces(this.playingSide).king();
+    }
+
 }

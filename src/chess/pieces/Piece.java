@@ -92,6 +92,26 @@ public abstract class Piece extends Actor {
     }
 
     /**
+     * Returns the possible move that targets this field.
+     * @param x the x-coordinate to target
+     * @param y the y-coordinate to target
+     * @return the possible move if it exists
+     */
+    protected Optional<BaseMove> genMove(int x, int y){
+        if(!(0 <= x && x < 8 && 0 <= y && y < 8)){
+            return Optional.empty();
+        }
+        Optional<Piece> otherPiece = board.get(x, y);
+        if(otherPiece.isEmpty()){
+            return Optional.of(new MovementMove(board, this, x, y));
+        }
+        if(otherPiece.get().side == this.side){
+            return Optional.empty();
+        }
+        return Optional.of(new CaptureMove(board, this, otherPiece.get()));
+    }
+
+    /**
      * Returns all {@link chess.moves.MovementMove MovementMoves} in a straight line from the piece and a
      * {@link chess.moves.CaptureMove} if possible.
      * @param xChange the change in x-direction between checked fields

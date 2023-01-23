@@ -56,6 +56,7 @@ public class Rook extends Piece{
         // towards bottom
         retMoves.addAll(this.moveLine(0, -1));
 
+        retMoves.removeIf(BaseMove::isInvalid);
         return retMoves;
     }
 }

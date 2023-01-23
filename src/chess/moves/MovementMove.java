@@ -1,5 +1,6 @@
 package chess.moves;
 
+import chess.pieces.King;
 import chess.pieces.Piece;
 import chess.Board;
 import greenfoot.Color;
@@ -44,5 +45,17 @@ public class MovementMove extends BaseMove {
     @Override
     public int getMargin() {
         return 16;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isInvalid() {
+        King king = this.board.getKing();
+        // can't counter knight with movement
+        if(king.getAttackingKnights().size() != 0) {
+            return true;
+        }
+
+        return this.board.testMoveCheck(this);
     }
 }

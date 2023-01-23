@@ -62,6 +62,7 @@ public class Queen extends Piece{
         // towards bottom right
         retMoves.addAll(this.moveLine(1, -1));
 
+        retMoves.removeIf(BaseMove::isInvalid);
         return retMoves;
     }
 }

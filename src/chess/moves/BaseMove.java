@@ -8,8 +8,9 @@ import greenfoot.Color;
  * Represents a possible move in the game that can be executed.
  */
 public abstract class BaseMove {
-    final Piece piece;
     final Board board;
+
+    public final Piece piece;
     public final int x;
     public final int y;
 
@@ -27,12 +28,6 @@ public abstract class BaseMove {
         this.y = y;
     }
 
-    /**
-     * Returns the associated piece.
-     */
-    public Piece getPiece(){
-        return this.piece;
-    }
 
     /**
      * Execute the action associated with this move
@@ -48,4 +43,9 @@ public abstract class BaseMove {
      * Returns the margin of the colored space on a {@link chess.Square Square}.
      */
     public abstract int getMargin();
+
+    /**
+     * Returns whether the move is valid.
+     */
+    public abstract boolean isInvalid();
 }

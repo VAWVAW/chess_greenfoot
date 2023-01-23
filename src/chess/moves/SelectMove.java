@@ -36,4 +36,9 @@ public class SelectMove extends BaseMove {
     public int getMargin() {
         return 0;
     }
+
+    /** {@inheritDoc} */ @Override
+    public boolean isInvalid() {
+        return false;
+    }
 }

@@ -1,9 +1,7 @@
 package chess.pieces;
 
 import chess.Board;
-import chess.moves.BaseMove;
-import chess.moves.CastleMove;
-import chess.moves.DeselectMove;
+import chess.moves.*;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
@@ -88,5 +86,90 @@ public class King extends Piece{
     public void capture(){
         super.capture();
         board.endGame();
+    }
+
+    /**
+     * Returns whether the king is currently in check.
+     */
+    public boolean isInCheck() {
+        return this.getAttackers().size() != 0;
+    }
+
+    /**
+     * Returns all knights that threaten the king.
+     */
+    public ArrayList<Knight> getAttackingKnights() {
+        ArrayList<Knight> attackers = new ArrayList<>();
+        ArrayList<BaseMove> knightMoves = new ArrayList<>();
+        this.genMove(x+1, y+2).ifPresent(knightMoves::add);
+        this.genMove(x-1, y+2).ifPresent(knightMoves::add);
+        this.genMove(x+1, y-2).ifPresent(knightMoves::add);
+        this.genMove(x-1, y-2).ifPresent(knightMoves::add);
+        this.genMove(x+2, y+1).ifPresent(knightMoves::add);
+        this.genMove(x+2, y-1).ifPresent(knightMoves::add);
+        this.genMove(x-2, y+1).ifPresent(knightMoves::add);
+        this.genMove(x-2, y-1).ifPresent(knightMoves::add);
+
+        knightMoves.removeIf(m -> !(m instanceof CaptureMove));
+
+        for(BaseMove move: knightMoves) {
+            Piece otherPiece = move.piece;
+            if(otherPiece instanceof Knight) {
+                attackers.add((Knight) otherPiece);
+            }
+        }
+        return attackers;
+    }
+
+    /**
+     * Returns all pieces that threaten the king in a straight line.
+     */
+    public ArrayList<Piece> getAttackersLine() {
+        ArrayList<Piece> attackers = new ArrayList<>();
+
+        ArrayList<BaseMove> diagonalMoves = this.moveLine(1, 1);
+        diagonalMoves.addAll(this.moveLine(1, -1));
+        diagonalMoves.addAll(this.moveLine(-1, 1));
+        diagonalMoves.addAll(this.moveLine(-1, -1));
+
+        ArrayList<BaseMove> straightMoves = this.moveLine(1, 0);
+        straightMoves.addAll(this.moveLine(-1, 0));
+        straightMoves.addAll(this.moveLine(0, 1));
+        straightMoves.addAll(this.moveLine(0, -1));
+
+        diagonalMoves.removeIf(m -> !(m instanceof CaptureMove));
+        straightMoves.removeIf(m -> !(m instanceof CaptureMove));
+
+        for(BaseMove move: diagonalMoves) {
+            Piece otherPiece = ((CaptureMove)move).getCapturedPiece();
+            if(otherPiece instanceof Bishop || otherPiece instanceof Queen) {
+                attackers.add(otherPiece);
+            }
+            if(otherPiece instanceof Pawn) {
+                ArrayList<BaseMove> movesOther = otherPiece.getMoves();
+                movesOther.removeIf(m -> !(m instanceof CaptureMove));
+                movesOther.removeIf(m -> ((CaptureMove)m).getCapturedPiece() != this);
+                if(movesOther.size() != 0){
+                    attackers.add(otherPiece);
+                }
+            }
+        }
+
+        for(BaseMove move: straightMoves) {
+            Piece otherPiece = move.piece;
+            if(otherPiece instanceof Rook || otherPiece instanceof Queen) {
+                attackers.add(otherPiece);
+            }
+        }
+        return attackers;
+    }
+
+    /**
+     * Returns all pieces that threaten the king.
+     */
+    public ArrayList<Piece> getAttackers() {
+        ArrayList<Piece> attackers = this.getAttackersLine();
+        attackers.addAll(this.getAttackingKnights());
+        return attackers;
     }
 }

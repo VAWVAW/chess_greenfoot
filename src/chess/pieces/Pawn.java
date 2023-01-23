@@ -80,10 +80,11 @@ public class Pawn extends Piece{
         if(board.getLastMove().isPresent() && board.getLastMove().get() instanceof PawnDoubleMove){
             PawnDoubleMove move = (PawnDoubleMove) board.getLastMove().get();
             if(move.y == this.y && Math.abs(move.x - this.x) == 1){
-                retMoves.add(new CaptureMove(board, this, move.getPiece(), move.x, move.y + (side==0 ? 1:-1)));
+                retMoves.add(new CaptureMove(board, this, move.piece, move.x, move.y + (side==0 ? 1:-1)));
             }
         }
 
+        retMoves.removeIf(BaseMove::isInvalid);
         return retMoves;
     }
 }

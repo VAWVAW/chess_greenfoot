@@ -21,6 +21,9 @@ public class Settings {
     /** The number of squares to leave at the bottom of the chess board. */
     public static final int MARGIN_BOTTOM = 1;
 
+    /** The width of a highlight at the edges of a {@link Square}. */
+    public static final int HIGHLIGHT_MARGIN = 6;
+
     /** The background color of the world. */
     public static final Color BACKGROUND_COLOR = Color.WHITE;
 

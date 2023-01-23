@@ -35,6 +35,13 @@ public class CaptureMove extends MovementMove{
     }
 
     /**
+     * Returns the piece that would be captured.
+     */
+    public Piece getCapturedPiece() {
+        return this.capturedPiece;
+    }
+
+    /**
      * Captures and removes the captured piece and moves the capturing piece.
      */
     @Override
@@ -53,5 +60,11 @@ public class CaptureMove extends MovementMove{
     @Override
     public int getMargin(){
         return 0;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isInvalid() {
+        return this.board.testMoveCheck(this);
     }
 }
