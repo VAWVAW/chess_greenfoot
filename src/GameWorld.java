@@ -25,7 +25,7 @@ public class GameWorld extends World {
             return;
         }
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
-        if(mouseInfo != null && mouseInfo.getButton() == 1){
+        if(mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0){
             int x = mouseInfo.getX() - Settings.MARGIN_LEFT;
             int y = 7 + Settings.MARGIN_TOP - mouseInfo.getY();
             if(0 <= x && x < 8 && 0 <= y && y < 8){
