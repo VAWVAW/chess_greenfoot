@@ -40,7 +40,7 @@ public class CastleMove extends MovementMove{
     /** {@inheritDoc} */
     @Override
     public boolean isInvalid() {
-        //todo check all squares for check
-        return false;
+        MovementMove helperMove = new MovementMove(board, piece, rookMove.x, y);
+        return helperMove.isInvalid() || ((MovementMove)this).isInvalid();
     }
 }

@@ -76,6 +76,7 @@ public class King extends Piece{
         // towards bottom right
         retMoves.addAll(this.moveLine(1, -1, 1));
 
+        // todo check for invalid moves
         return retMoves;
     }
 
