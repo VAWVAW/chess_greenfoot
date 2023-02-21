@@ -76,7 +76,26 @@ public class King extends Piece{
         // towards bottom right
         retMoves.addAll(this.moveLine(1, -1, 1));
 
-        // todo check for invalid moves
+        // check for invalid moves
+        ArrayList<BaseMove> invalidMoves = new ArrayList<>();
+        for(BaseMove move: retMoves) {
+            if(!(move instanceof MovementMove))
+                continue;
+
+            int oldX = this.x, oldY = this.y;
+            this.x = move.x;
+            this.y = move.y;
+
+            if(this.board.testMoveCheck((MovementMove) move)) {
+                invalidMoves.add(move);
+            }
+
+            this.x = oldX;
+            this.y = oldY;
+        }
+        for(BaseMove move: invalidMoves){
+            retMoves.remove(move);
+        }
         return retMoves;
     }
 

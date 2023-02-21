@@ -27,6 +27,9 @@ public class MovementMove extends BaseMove {
      */
     @Override
     public void execute() {
+        // reset highlight
+        this.board.squares[this.piece.getX()][this.piece.getY()].resetHighlightColor();
+
         this.board.del(piece.getX(), piece.getY());
         this.board.set(x, y, piece);
         piece.move(x, y);
