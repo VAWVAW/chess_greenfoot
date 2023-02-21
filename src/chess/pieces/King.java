@@ -173,11 +173,17 @@ public class King extends Piece{
                     attackers.add(otherPiece);
                 }
             }
+            if(otherPiece instanceof King && Math.abs(otherPiece.x - this.x) <= 1 && Math.abs(otherPiece.y - this.y) <= 1 ) {
+                attackers.add(otherPiece);
+            }
         }
 
         for(BaseMove move: straightMoves) {
-            Piece otherPiece = move.piece;
+            Piece otherPiece = ((CaptureMove)move).getCapturedPiece();
             if(otherPiece instanceof Rook || otherPiece instanceof Queen) {
+                attackers.add(otherPiece);
+            }
+            if(otherPiece instanceof King && Math.abs(otherPiece.x - this.x) <= 1 && Math.abs(otherPiece.y - this.y) <= 1 ) {
                 attackers.add(otherPiece);
             }
         }
