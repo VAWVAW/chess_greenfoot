@@ -22,6 +22,8 @@ public class GameWorld extends World {
     @Override
     public void act(){
         if(!board.isActive()){
+            this.showText((board.getPlayingSide() == 1? "Light": "Dark") + " won", 7, 1);
+            Greenfoot.stop();
             return;
         }
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();

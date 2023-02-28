@@ -154,6 +154,13 @@ public class Board {
     }
 
     /**
+     * Returns the id of the active side
+     */
+    public int getPlayingSide(){
+        return this.playingSide;
+    }
+
+    /**
      * Replaces all active moves with new ones.
      */
     public void setMoves(ArrayList<BaseMove> moves){
@@ -163,6 +170,9 @@ public class Board {
                 continue;
             }
             this.squares[move.x][move.y].removeMove();
+        }
+        if(moves.size() == 0){
+            this.endGame();
         }
         this.moves = moves;
         if(!this.isActive){
@@ -212,7 +222,6 @@ public class Board {
      */
     public void endGame(){
         this.isActive = false;
-        setMoves(new ArrayList<>());
     }
 
     /**
